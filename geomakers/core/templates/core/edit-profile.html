@@ -1,0 +1,100 @@
+{% extends "core/base.html" %}
+{% block content %}
+<article>
+    <div class="tab-content">
+        <div class="tab-pane active" id="profile">
+        <article id="profile-banner">
+            <div class="row">
+                <div class="col-sm-1">
+                    <img src="../static/geomakers/bootstrap/img/avatar.png">
+                            </div>
+                            <div class="col-sm-9">
+                                <h2>{{user.first_name}} {{user.last_name}}</h2>
+                                <h3>{% if userProfile.description %}{{ userProfile.description }}{% endif %}</h3>
+                                <h3>{% if userProfile.location %}{{ userProfile.location }}{% endif %}</h3>
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <h4>edit profile</h4>
+                                {% if user.is_authenticated %}<a href={% url 'logout' %}><h4>Logout</h4></a>{% else %}<a href={% url 'login' %}><h4>Login</h4></a>{% endif %}
+                            </div>
+                        </div>
+                    </article>
+                    <article id="profile-contents" class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="profile-panel">
+                                    <h4>Projects</h4>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="#" class="thumbnail">
+                                                <img src="img/sample.png">
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="#" class="thumbnail">
+                                                <img src="img/sample.png">
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="#" class="thumbnail">
+                                                <img src="img/sample.png">
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="#" class="thumbnail">
+                                                <img src="img/sample.png">
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="#" class="thumbnail">
+                                                <img src="img/sample.png">
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <a href="#" class="thumbnail">
+                                                <img src="img/sample.png">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="profile-panel">
+                                    <h4>Recent activities</h4>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="no-content">No updates yet.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="profile-panel">
+                                    <h4>Create a new project</h4>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <a href={% url 'contribute' %}><button class="btn btn-dream btn-md btn-block"> Dream</button></a>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <a href={% url 'contribute' %}><button class="btn btn-make btn-md btn-block"> Make</button></a>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <a href={% url 'contribute' %}><button class="btn btn-boost btn-md btn-block"> Boost</button></a>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <a href={% url 'search' %}><h5>Visit the Projects page.</h5></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="tab-pane" id="geodreamer">...</div>
+                <div class="tab-pane" id="geomaker">...</div>
+                <div class="tab-pane" id="geobooster">...</div>
+                <div class="tab-pane" id="resources">...</div>
+                <div class="tab-pane" id="makerspaces">...</div>
+            </div>
+    </article>
+{% endblock %}

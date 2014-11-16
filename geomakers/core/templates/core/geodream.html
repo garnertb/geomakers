@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div id="geodream-middle">
+<div class="submit-header">Share Your GeoDream</div>
+<div class="submit-panel">
+<form id="user_form" method="post" action="/skyshaker/geodream/" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="submit-panel-left">
+        <div class="submit-part">
+            <label for="id_title">Name your GeoDream:</label>
+            <input id="id_title" maxlength="60" name="title" type="text">
+        </div>
+        <div class="submit-part">
+            <label for="id_abstract">Tell us about your GeoDream:</label> <textarea id="id_abstract" name="abstract" rows="5"></textarea>
+        </div>
+        <div class="submit-part">
+            <label for="id_location">GeoDream Location:</label>
+            <input id="id_location" maxlength="200" name="location" type="text">
+        </div>
+        <div class="submit-part">
+            <label for="id_images">GeoDream Images:</label>
+            <input id="id_images" name="images" type="file" multiple>
+        </div>
+        <div class="submit-part">
+            <label for="id_videos">Videos:</label>
+            <textarea id="id_videos" name="images" rows="5" multiple></textarea>
+        </div>
+        <div class="submit-links">
+            <label for="id_links">Links:</label>
+            <textarea id="id_links" name="images" rows="5" multiple></textarea>
+        </div>
+    </div>
+    <input type="submit" name="submit" value="Submit" />
+</form>
+</div>
+</div>
+{% endblock %}

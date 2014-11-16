@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    <a id="gm-navbar-brand" href={% url 'index' %}><img src="{% static 'geomakers/img/main/brand.png' %}"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="navbar-form navbar-left" role="search" id="header-search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Quick Search" id="header-search-textbox">
+        </div>
+        <button type="submit" class="btn btn-default" id="header-search-button">Submit</button>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href={% url 'donate' %}>Donate</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<script>
+document.getElementById("header-search-button").addEventListener("click", startQuickSearch);
+
+var headerSearchTextbox = document.getElementById("header-search-textbox");
+
+headerSearchTextbox.onkeypress = checkKeyPress;
+
+function checkKeyPress(e){
+    console.log("starting checkKeyPress with keyCode:");
+    console.log(e.keyCode);
+    if (e.keyCode == 13){startQuickSearch();}
+    console.log("finishing checkKeyPress");
+}
+
+function startQuickSearch(){
+    console.log("starting startQuickSearch");
+    window.location = "{% url 'search' %}" + window.encodeURIComponent(headerSearchTextbox.value);
+    console.log("finishing startQuickSearch");
+}
+
+</script>

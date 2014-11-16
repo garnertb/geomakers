@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div id="makerspaces-middle">
+    {% for sm in lsm %}
+        <label for="makerspaces-state-{{sm.0}}" class="makerspaces-state">{{sm.0}}</label>
+        <input type="radio" id="makerspaces-state-{{sm.0}}" name="makerspaces-state" class="makerspaces-state-input"/>
+        <div id="makerspaces-in-{{sm.0}}" class="makerspaces-in-state">
+            {% for makerspace in sm.1%}
+                <p class="makerspace">
+                    <div class="makerspace-name">
+                        {{makerspace.name}}
+                    </div>
+                    <div class="makerspace-website-div">
+                        Website: <a href="{{makerspace.url}}" class="makerspace-url" target="_blank">{{makerspace.url}}</a>
+                    </div>
+                    <div class="makerspace-address-div">
+                        Address: <span class="makerspace-address">{{makerspace.address}}</span>
+                    </div>
+                </p>
+            {% endfor %}
+        </div><!-- end makerspaces-in-...-->
+    {% endfor %}
+</div><!-- end makerspaces-middle -->
+{% endblock %}

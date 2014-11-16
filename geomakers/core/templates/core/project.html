@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div id="project-middle">
+<h3>{{ project.title }}</h3>
+{% if user.id == project.owner.id %}<div><a href="{% url 'projectEdit' project.slug %}">Edit</a></div>{% endif %}
+<div id="project-left">
+    <div id="project-left-left">
+        <h4>About</h4>
+        <p>{{ project.abstract }}</p>o
+        <h4>Location</h4>
+        <p>{{ project.location }}</p>
+        <h4>Links</h4>
+        {% for link in project.links.all %}
+        <p><a href={{link.url}}>{{link.title}}</a></p>
+        {% endfor %}
+    </div>
+    <div id="project-left-right">
+        <img class="project-image" src="{% if project.images.all.0.image.url %}{{ project.images.all.0.image.url }}{% else %}{% if project.typeOfProject == 'GeoDream' %}{% static 'skyshaker/img/project/GeoDream.png' %}{% elif project.typeOfProject == 'GeoRecipe' %}{% static 'skyshaker/img/project/GeoRecipe.png' %}{% elif project.typeOfProject == 'GeoBoost' %}{% static 'skyshaker/img/project/GeoBoost.png' %}{% else %}{% static 'skyshaker/img/project/default_project_img.png' %}{% endif %}{% endif %}">
+	<!--
+        {% for image in project.images.all %}
+            <img src="{{image.image.url}}"/>
+            <p class="project-image-caption">{{image.caption}}</p>
+        {% endfor %}
+        -->
+    </div>
+    <div id="project-left-bottom">
+        {% for video in project.videos.all %}
+        {{ video.embed|safe }}
+        {% endfor %}
+    </div>
+</div>
+<div id="project-right">
+    <div id="project-people_involved">
+        <h3>People Involved</h3>    
+    </div>
+     <div id="project-tags">
+        <h3>Tags</h3>    
+    </div>
+     <div id="project-ratings">
+        <h3>Ratings</h3> 
+        {{ project.ratingAsString|safe }}
+    </div>
+     <div id="project-associated_projects">
+        <h3>Associated Projects</h3>    
+    </div>
+     <div id="project-comment_share">
+        <h3>Comment</h3>
+        <h3>Share</h3>
+    </div>
+     <div id="project-related">
+        <h3>Related</h3>
+    </div>
+</div>
+{% endblock %}

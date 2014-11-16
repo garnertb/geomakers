@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div id="contribute-middle">
+<div class="submit-header">
+    <h1>Share you Contribution with the Community</h1>
+    <div class="help-block">Your contribution can be anything from sharing events to construction manuals.</div>
+</div>
+<div class="submit-panel">
+
+<form id="user_form" method="post" action="/skyshaker/contribute/" enctype="multipart/form-data">
+{% csrf_token %}
+    <div class="submit-panel-left">
+        <div class="submit-part">
+            <label for="id_typeOfProject">Select the type of Contribution:</label>
+            <select id="id_typeOfProject" name="typeOfProject">
+                <option value="" selected="selected">---------</option>
+                <option value="GeoDream">GeoDream</option>
+                <option value="GeoRecipe">GeoRecipe</option>
+                <option value="GeoBoost">GeoBoost</option>
+            </select>
+        </div>        
+        <div class="submit-part">
+            <label for="id_title">Name of your Contribution</label>
+            <input id="id_title" maxlength="60" name="title" type="text">
+        </div>
+        <div class="submit-part">
+            <label for="id_abstract">Description:</label>
+            <textarea id="id_abstract" name="abstract" rows="5"></textarea>
+        </div>
+        <div class="submit-part">
+            <label for="id_location">GeoDream Location:</label>
+            <input id="id_location" maxlength="200" name="location" type="text">
+        </div>
+        <div class="submit-part">Image:
+            <input id="id_image" type="file" name="image">
+            <img id="submit-image-img" src="{% static 'skyshaker/img/project/default_project_img.png' %}" alt="image"/>
+            </div>
+        </div>
+        <div class="submit-part">
+            <label for="id_videos">Videos:</label>
+            <div class="help-block">Only enter the urls to videos, separated by a comma.  We'll take it from there and automatically generate the emed code and find the titles of the videos.</div>
+            <textarea id="id_videos" name="videos" rows="5" multiple></textarea>
+        </div>
+        <div class="submit-part">
+            <label for="id_links">Links:</label>
+            <div class="help-block">Only enter the urls separated by a comma.  Our system will go the the sites and grab the titles.</div>
+            <textarea id="id_links" name="links" rows="5" multiple></textarea>
+        </div>
+        <div class="submit-part">
+        <label for="id_related">Related:</label>
+        <div class="help-block">Select other contributions that are relate to this one.  You can select multiple by holding down the Ctrl key and left-clicking.</div>
+        <select multiple="multiple" id="id_related" name="related">
+            {% for project in projects %}
+                <option value="{{project.id}}">{{project.title}}{%if project.owner.username %} by {{project.owner.username}}{% endif %}</option>
+            {% endfor %}
+        </select>
+        </div>
+    </div>
+    </br>
+    <input type="submit" name="submit" value="Submit" />
+</form>
+</div>
+</div>
+<script>
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#submit-image-img').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#id_image").change(function(){
+    readURL(this);
+});
+</script>
+{% endblock %}

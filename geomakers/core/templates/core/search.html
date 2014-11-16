@@ -1,0 +1,212 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<div id="search-middle">
+    <div>
+        <span>Search for</span>
+        <input type="text" id="search-words">
+    </div>
+    <div id="search-show">
+        <span>Show: </span>
+        <input type="checkbox" id="show-GeoDreams" name="show" checked><label for="show-GeoDreams">GeoDreams</label>
+        <input type="checkbox" id="show-GeoRecipes" name="show" checked><label for="show-GeoRecipes">GeoRecipes</label>
+        <input type="checkbox" id="show-GeoBoosts" name="show" checked><label for="show-GeoBoosts">GeoBoosts</label>
+    </div>
+    <div id="search-sort_by">
+        <span>Sort by: </span>
+        <input type="radio" id="sort-NewestToOldest" name="sort" checked><label for="sort-NewestToOldest">Newest to Oldest</label>
+        <input type="radio" id="sort-OldestToNewest" name="sort" checked><label for="sort-OldestToNewest">Oldest to Newest</label>
+        <!--<input type="radio" id="sort-Rating" name="sort" checked><label for="sort-Rating">Rating</label>-->
+    </div>
+<div id="search-results">
+    {% for project in projects %}
+      <a class="search-project-a" href={% url 'project' project.slug %}>
+        <div class="search-project search-project-{{ project.typeOfProject }}">
+            <img class="search-project-image" src="{% if project.images.all.0.image.url %}{{ project.images.all.0.image.url }}{% else %}{% if project.typeOfProject == 'GeoDream' %}{% static 'skyshaker/img/project/GeoDream.png' %}{% elif project.typeOfProject == 'GeoRecipe' %}{% static 'skyshaker/img/project/GeoRecipe.png' %}{% elif project.typeOfProject == 'GeoBoost' %}{% static 'skyshaker/img/project/GeoBoost.png' %}{% else %}{% static 'skyshaker/img/project/default_project_img.png' %}{% endif %}{% endif %}">
+            <div class="search-project-middle search-project-middle-{{ project.typeOfProject }}">
+                <img class="search-project-image-owner" src="{{ project.owner.userprofile.picture.url }}"/>
+                <div class="search-project-title">{{ project.title }}</div>
+            </div>
+            <div class="search-project-datetime">{{ project.updated_at|timesince }} ago</div>
+            <div class="search-project-abstract">{% if project.abstract %}{{project.abstract}}{% endif %}</div>
+            <!--
+            <div>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                <span>(124)</span>
+            </div>
+            <div class="search-project-likes">4,100 <span>shoutouts</span></div>
+            -->
+        </div><!-- end search-project -->
+      </a>
+    {% endfor %}
+</div><!-- end search-results -->
+</div><!-- end search-middle -->
+<script>
+
+var projectsAsJSON = {% autoescape off %} {{ json }} {% endautoescape %}
+
+var projects = document.getElementsByClassName("search-project");
+console.log(projects);
+var searchBox = document.getElementById("search-words");
+var geodreams = document.getElementsByClassName("search-project-GeoDream");
+var georecipes = document.getElementsByClassName("search-project-GeoRecipe");
+var geoboosts = document.getElementsByClassName("search-project-GeoBoost");
+var showGeoDreams = document.getElementById("show-GeoDreams");
+var showGeoRecipes = document.getElementById("show-GeoRecipes");
+var showGeoBoosts = document.getElementById("show-GeoBoosts");
+var sortNewestToOldest = document.getElementById("sort-NewestToOldest");
+var sortOldestToNewest = document.getElementById("sort-OldestToNewest");
+var sortRating = document.getElementById("sort-Rating");
+
+var searchWords = function (){
+    console.log("starting searchWords");
+    var words = document.getElementById("search-words").value.toUpperCase();
+    if (words == "")
+    {
+        for (var p = 0; p < projects.length; p++)
+        {
+            console.log("p is " + p);
+            projects[p].style.display = "inline-block";
+        }        
+    }
+    else
+    {
+        for (var p = 0; p < projects.length; p++)
+        {
+            var project = projects[p];
+            if (project.textContent.toUpperCase().indexOf(words) > -1)
+            {
+                project.style.display = "inline-block";
+            }
+            else
+            {
+                project.style.display = "none";
+            }
+        }
+    }
+    console.log("finishing searchWords");
+}
+
+function showProjects(){
+    console.log("starting showProjects");
+    console.log(geodreams);
+        if (showGeoDreams.checked){for (var s = 0; s < geodreams.length; s++){geodreams[s].style.display = "inline-block";}}
+        else {for (var s = 0; s < geodreams.length; s++){geodreams[s].style.display = "none";}}
+        if (showGeoRecipes.checked){for (var s = 0; s < georecipes.length; s++){georecipes[s].style.display = "inline-block";}}
+        else {for (var s = 0; s < georecipes.length; s++){georecipes[s].style.display = "none";}}
+        if (showGeoBoosts.checked){for (var s = 0; s < geoboosts.length; s++){geoboosts[s].style.display = "inline-block";}}
+        else {for (var s = 0; s < geoboosts.length; s++){geoboosts[s].style.display = "none";}}
+    console.log("finishing showProjects");
+}
+
+var getDateElement = function (inputString, inputSearch){
+    return inputString.substring(inputString.substring(0,inputString.indexOf(inputSearch)-1).lastIndexOf(" ")+1,inputString.indexOf(inputSearch)-1);
+}
+
+var sort_by_date_oldest_to_newest = function (one,two){
+    console.log("starting sort_by_date with");
+    modifier = 1;
+    //alert(one);
+    a = one.getElementsByClassName('search-project-datetime')[0].textContent;
+    b = two.getElementsByClassName('search-project-datetime')[0].textContent;
+    aYear = getDateElement(a, "year");
+    bYear = getDateElement(b, "year");
+    aMonth = getDateElement(a, "month");
+    bMonth = getDateElement(b, "month");
+    aDay = getDateElement(a, "day");
+    bDay = getDateElement(b, "day");
+
+    if (aYear < bYear){ return 1*modifier; }
+    else if (aYear > bYear){ return -1*modifier; }
+    else if (aMonth < bMonth){ return 1*modifier; }
+    else if (aMonth > bMonth){ return -1*modifier; }
+    else if (aDay < bDay){ return 1*modifier; }
+    else if (aDay > bDay){ return -1*modifier; }
+    else { return 0*modifier;}
+}
+
+var sort_by_date_newest_to_oldest = function (one,two){
+    console.log("starting sort_by_date with");
+    modifier = -1;
+    //alert(one);
+    a = one.getElementsByClassName('search-project-datetime')[0].textContent;
+    b = two.getElementsByClassName('search-project-datetime')[0].textContent;
+    aYear = getDateElement(a, "year");
+    bYear = getDateElement(b, "year");
+    aMonth = getDateElement(a, "month");
+    bMonth = getDateElement(b, "month");
+    aDay = getDateElement(a, "day");
+    bDay = getDateElement(b, "day");
+
+    if (aYear < bYear){ return 1*modifier; }
+    else if (aYear > bYear){ return -1*modifier; }
+    else if (aMonth < bMonth){ return 1*modifier; }
+    else if (aMonth > bMonth){ return -1*modifier; }
+    else if (aDay < bDay){ return 1*modifier; }
+    else if (aDay > bDay){ return -1*modifier; }
+    else { return 0*modifier;}
+}
+
+var sort_by_rating = function (a,b){
+    console.log("starting sort_by_rating");
+    if (a<b){return 1;}
+    else if (a>b){return -1;}
+    else{return 0;}
+}
+
+var sortProjects = function (sortfunction){
+    //alert("starting sortProjects");
+    console.log(projects);
+
+    ul = document.getElementById("search-results")
+    var new_ul = ul.cloneNode(false);
+    
+    // Add all projects to an array
+    var lis = [];
+    for(var i = ul.childNodes.length; i--;){
+        if(ul.childNodes[i].nodeName === 'A')
+            lis.push(ul.childNodes[i]);
+    }
+
+    // Sort the lis in descending order
+    lis.sort(sortfunction);
+
+    for(var i = 0; i < lis.length; i++)
+        new_ul.appendChild(lis[i]);
+    ul.parentNode.replaceChild(new_ul, ul);
+    console.log("finishing sortProjects");
+}
+
+function driveSort(){
+    //choose how to sort
+    if (sortNewestToOldest.checked) {sortProjects(sort_by_date_newest_to_oldest);}
+    else if (sortOldestToNewest.checked) {sortProjects(sort_by_date_oldest_to_newest);}
+    else if (sortRating.checked) {sortProjects(sort_by_rating);}
+}
+
+searchBox.addEventListener("keyup", searchWords);
+
+showGeoDreams.addEventListener("change", showProjects);
+showGeoRecipes.addEventListener("change", showProjects);
+showGeoBoosts.addEventListener("change", showProjects);
+
+sortNewestToOldest.addEventListener("change", driveSort);
+sortOldestToNewest.addEventListener("change", driveSort);
+sortRating.addEventListener("change", driveSort);
+</script>
+<script>
+//check parameter and initialize search
+window_location_href = window.location.href
+searchBox.value = window.decodeURIComponent(window_location_href.substring(window_location_href.indexOf("search/")).substring(7));
+searchWords();
+</script>
+<script>
+//hide quick search box on top
+document.getElementById("header-search").style.display = "none";
+</script>
+{% endblock %}

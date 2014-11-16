@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% block content %}
+<div id="donate-middle">
+<h1>Help contribute to a growing GeoMaker platform.</h1>
+</br>
+    <div id="donate-message">
+        <h2>From GeoMakers creator Jared Novick</h2>
+        <p>GeoMakers is not Wikipedia.  But, like Wikipedia, we want GeoMakers to be a special place where "we can all go to think, to learn, to share our knowledge with others".  As a 501c3 non-profit, the GeoMakers Foundation seeks to provide www.geomakers.org as a new dimension to the global data commons, which empowers all of us to organize the world's knowledge spatially and temporally - rather than encyclopedically.</p><p>When it comes to certain problems, I strongly believe that you can either make money off of them, or you can solve them.  But, you can't do both.  GeoMakers was conceived of in order to let everyone dedicate to the global data commons their knowledge about how the world has changed over time.  For this to work, people must be secure in their knowledge that their cultural contributions are not subject to commercial influence.</p><p>GeoMakers is a new social venture, and we are still working out the kinks.  If you are happy having a place where you can freely publish your spatio-temporal representations of the world to a global use community, and to easily access such data from others, perhaps you might consider contributing $10, $20, or $40 to support the hosting and operations costs of this global data commons.  Remember, all donations are tax deductible.</p><p>Thanks,</p><p>Jared Novick</p>
+    </div>
+    <div id="donate-pay">
+    <h2>Please make a donation.</h2>
+    <div>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="KMYBSHEQH7BHJ">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+    </div>
+    <h2>Where your donation goes</h2>
+    <p>Technology: Servers, bandwith, maintenance, development. GeoMakers is build on open source code and hosted in the cloud, so its growth will be affordable, but will still have costs.</p>
+    <p>People: GeoMakers is currently largely a volunteer activity, but its sustainment over time will require full time attention from skilled staff. Your resources will help us develop the appropriate staff capacity.</p>
+    <!--<p>PAYPAL VERIFIED ICONS</p>-->
+    </div>
+</div>
+{% endblock %}
